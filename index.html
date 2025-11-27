@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe del Reto - Fundamentos de Robótica</title>
+    <!-- Importamos fuentes de Google para un look académico -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Estilos CSS integrados -->
+    <style>
+        :root {
+            --primary-color: #003366; /* Azul UAM aproximado */
+            --accent-color: #E63946;
+            --text-color: #333;
+            --bg-color: #f4f4f9;
+            --paper-color: #ffffff;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--paper-color);
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Estilo especial para el logo en iframe */
+        .logo-container {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 15px auto;
+            overflow: hidden;
+            border-radius: 50%; /* Opcional: hace el contenedor circular si el logo lo permite */
+        }
+        
+        .logo-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            /* Desactiva interacción para que parezca una imagen fija */
+            pointer-events: none; 
+            transform: scale(1.1); /* Pequeño zoom para ocultar bordes del visor de Drive */
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 10px 0;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #555;
+            margin-top: 0;
+            font-weight: 400;
+        }
+
+        .info-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .label {
+            font-weight: bold;
+            color: var(--primary-color);
+            width: 120px;
+        }
+
+        /* Section Styles */
+        section {
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            border-left: 5px solid var(--accent-color);
+            padding-left: 10px;
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        /* Image Grid Styles Updated for Iframes */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .figure {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Contenedor para simular imagen usando iframe */
+        .figure-iframe-container {
+            position: relative;
+            width: 100%;
+            height: 250px; /* Altura fija necesaria para iframes */
+            overflow: hidden;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: #f9f9f9; /* Color de fondo mientras carga */
+            margin-bottom: 5px;
+        }
+
+        .figure-iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            pointer-events: none; /* Evita que se interactúe con el visor de Drive */
+        }
+
+        .figure caption {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+            display: block;
+        }
+
+        /* Video Embed */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            margin: 20px 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Estilo para los enlaces de Drive */
+        .drive-link {
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 0.85em;
+            color: var(--primary-color);
+            text-decoration: none;
+            border: 1px solid var(--primary-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .drive-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Code Block Styling */
+        .code-container {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            /* Modificaciones solicitadas: más pequeña y con scroll */
+            max-height: 450px; 
+            overflow-y: auto;
+            /* ---------------------------------------------------- */
+            font-family: 'Source Code Pro', monospace;
+            font-size: 13px; /* Un poco más pequeña la fuente para que quepa más */
+            border: 1px solid #444;
+        }
+        
+        /* Personalizar scrollbar para el código */
+        .code-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .code-container::-webkit-scrollbar-track {
+            background: #2a2a2a;
+        }
+        .code-container::-webkit-scrollbar-thumb {
+            background: #555; 
+            border-radius: 4px;
+        }
+        .code-container::-webkit-scrollbar-thumb:hover {
+            background: #777; 
+        }
+
+        pre {
+            margin: 0;
+        }
+        
+        /* Syntax Highlighting Simulation */
+        .kw { color: #569cd6; font-weight: bold; } /* Keywords (def, import, etc) */
+        .str { color: #ce9178; } /* Strings */
+        .com { color: #6a9955; font-style: italic; } /* Comments */
+        .num { color: #b5cea8; } /* Numbers */
+        .func { color: #dcdcaa; } /* Functions */
+        .type { color: #4ec9b0; } /* Types/Classes */
+
+        footer {
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 50px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            .info-table td { display: block; width: 100%; }
+            .logo-container { width: 120px; height: 120px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <!-- Logo UAM usando iframe para garantizar carga -->
+        <div class="logo-container">
+            <iframe src="https://drive.google.com/file/d/1rq5CZ7vdsfCOyHPHpZWAJlOnx7Ho3UgN/preview"></iframe>
+        </div>
+        
+        <h2>Universidad Americana UAM</h2>
+        <h1>Informe del Reto</h1>
+        <h2>Fundamentos de Robótica, Grupo 7</h2>
+
+        <table class="info-table">
+            <tr>
+                <td class="label">Estudiante:</td>
+                <td>Roberto Fabio Tercero Membreño (24014121)</td>
+            </tr>
+            <tr>
+                <td class="label">Docente:</td>
+                <td>Miguel Enrique Espinoza Rayo</td>
+            </tr>
+            <tr>
+                <td class="label">Fecha:</td>
+                <td>27 de noviembre del 2025</td>
+            </tr>
+        </table>
+    </header>
+
+    <section>
+        <h3>Descripción del Reto</h3>
+        <p>
+            El presente reto tuvo como objetivo principal la implementación práctica de un algoritmo de <strong>seguidor de línea</strong>, desarrollado y validado previamente en el entorno de simulación <em>Open Roberta Lab</em>. La metodología de trabajo abarcó dos fases críticas: validación virtual y despliegue físico.
+        </p>
+        <p>
+            Durante la fase de simulación, el algoritmo respondió exitosamente a las pruebas planteadas. Sin embargo, la transición a la implementación con el robot físico presentó desafíos técnicos significativos derivados de dos factores principales:
+        </p>
+        <ul>
+            <li><strong>Diseño Mecánico y Cinemática:</strong> La disposición de la rueda loca (bola de soporte) en la parte delantera del chasis comprometió la estabilidad direccional, dificultando la ejecución precisa de los giros programados.</li>
+            <li><strong>Limitaciones Logísticas:</strong> La disponibilidad reducida de unidades robóticas (únicamente dos para el grupo) limitó el tiempo efectivo de calibración y pruebas in situ.</li>
+        </ul>
+        <p>
+            Como consecuencia de estas limitaciones mecánicas y temporales, la finalización del recorrido en el entorno físico requirió <strong>intervención humana puntual</strong> durante las maniobras de giro para corregir la trayectoria y compensar el error acumulado por el hardware.
+        </p>
+    </section>
+
+    <section>
+        <h3>Evidencia Gráfica</h3>
+        <p>Se presentan a continuación los diagramas del recorrido y la lógica de programación utilizada. Nota: Puede ser necesario desplazarse dentro de los recuadros si la imagen es muy grande.</p>
+        <div class="image-grid">
+            <!-- Figura 1 usando Iframe -->
+            <div class="figure">
+                <div class="figure-iframe-container">
+                    <iframe src="https://drive.google.com/file/d/1Sj3-FTas_JQZoBRwdA4R3GnkxsE1g5-O/preview"></iframe>
+                </div>
+                <caption>Figura 1: Diagrama del recorrido realizado.</caption>
+                <a href="https://drive.google.com/file/d/1Sj3-FTas_JQZoBRwdA4R3GnkxsE1g5-O/view?usp=sharing" target="_blank" class="drive-link">Ver en Drive ↗</a>
+            </div>
+            <!-- Figura 2 usando Iframe -->
+            <div class="figure">
+                <div class="figure-iframe-container">
+                    <iframe src="https://drive.google.com/file/d/1Tt6Aul5HpCLt5HDw89XL7Nncc5xMoRi_/preview"></iframe>
+                </div>
+                <caption>Figura 2: Bloques de programación (Parte 1).</caption>
+                <a href="https://drive.google.com/file/d/1Tt6Aul5HpCLt5HDw89XL7Nncc5xMoRi_/view?usp=drive_link" target="_blank" class="drive-link">Ver en Drive ↗</a>
+            </div>
+            <!-- Figura 3 usando Iframe -->
+            <div class="figure">
+                <div class="figure-iframe-container">
+                    <iframe src="https://drive.google.com/file/d/10vQuWeKxKWn1OVvNUtpFQK5tJ8hq2DVV/preview"></iframe>
+                </div>
+                <caption>Figura 3: Bloques de programación (Parte 2).</caption>
+                <a href="https://drive.google.com/file/d/10vQuWeKxKWn1OVvNUtpFQK5tJ8hq2DVV/view?usp=sharing" target="_blank" class="drive-link">Ver en Drive ↗</a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Video de Demostración</h3>
+        <p>A continuación se presenta la evidencia en video del funcionamiento del robot durante el reto:</p>
+        <div class="video-container">
+            <!-- Iframe apuntando al preview de Google Drive -->
+            <iframe src="https://drive.google.com/file/d/1je-ThpsKXLau8xyYcIESE6SLmXfZxYB2/preview" allow="autoplay"></iframe>
+        </div>
+        <div style="text-align: center;">
+            <a href="https://drive.google.com/file/d/1je-ThpsKXLau8xyYcIESE6SLmXfZxYB2/view?usp=sharing" target="_blank" class="drive-link">Ver video en Drive ↗</a>
+        </div>
+    </section>
+
+    <section>
+        <h3>Código Fuente (Python)</h3>
+        <p>El siguiente script representa la lógica de control implementada en el Hub (solo funciones utilizadas):</p>
+        
+        <div class="code-container">
+<pre><code><span class="kw">from</span> hub <span class="kw">import</span> port
+<span class="kw">import</span> runloop
+<span class="kw">import</span> motor_pair
+<span class="kw">import</span> motor
+<span class="kw">import</span> color_sensor
+<span class="kw">import</span> color
+<span class="kw">from</span> hub <span class="kw">import</span> light_matrix, sound
+<span class="kw">import</span> distance_sensor
+
+<span class="com"># --- 1. DEFINICIÓN DE PUERTOS Y CONSTANTES ---</span>
+motor_izquierda = port.E
+motor_derecha = port.B
+puerto_garra = port.D
+puerto_sensor_color = port.A
+puerto_sensor_ultrasonico = port.F
+
+<span class="com"># CONSTANTES FÍSICAS (clave para la clase de conversiones)</span>
+CIRCUNFERENCIA_RUEDA = <span class="num">17.58</span> <span class="com"># float</span>
+GRADOS_POR_ROTACION = <span class="num">360</span> <span class="com"># int</span>
+
+<span class="com"># --- 2. FUNCIÓN DE CONVERSIÓN ---</span>
+<span class="kw">def</span> <span class="func">cm_a_grados</span>(cm: <span class="type">float</span>) -> <span class="type">int</span>:
+    <span class="str">"""Convierte centímetros a grados de motor usando la circunferencia de la rueda."""</span>
+    <span class="com"># Fórmula: (Distancia * 360) / Circunferencia</span>
+    grados_float = (cm * GRADOS_POR_ROTACION) / CIRCUNFERENCIA_RUEDA
+    <span class="kw">return</span> <span class="type">round</span>(grados_float)
+
+<span class="com"># --- 3. FUNCIONES PARA GARRA ---</span>
+<span class="kw">async def</span> <span class="func">bajar_garra</span>(grados: <span class="type">int</span> = <span class="num">90</span>, velocidad: <span class="type">int</span> = <span class="num">365</span>) -> <span class="kw">None</span>:
+    <span class="str">"""Baja la garra. El valor de grados ingresado debe ser positivo."""</span>
+    <span class="kw">await</span> motor.run_for_degrees(puerto_garra, -grados, velocidad)
+
+<span class="com"># --- 4. FUNCIONES PARA GIROS ---</span>
+<span class="kw">async def</span> <span class="func">girar_derecha_fase</span>(grados: <span class="type">int</span> = <span class="num">200</span>, direccion: <span class="type">int</span> = <span class="num">90</span>, velocidad: <span class="type">int</span> = <span class="num">1000</span>) -> <span class="kw">None</span>:
+    <span class="str">"""Gira en fase a la derecha según grados de motor."""</span>
+    <span class="kw">await</span> motor_pair.move_for_degrees(motor_pair.PAIR_1, grados, direccion, velocity=velocidad)
+
+<span class="kw">async def</span> <span class="func">girar_izquierda_fase</span>(grados: <span class="type">int</span> = <span class="num">200</span>, direccion: <span class="type">int</span> = <span class="num">90</span>, velocidad: <span class="type">int</span> = <span class="num">1000</span>) -> <span class="kw">None</span>:
+    <span class="str">"""Gira en fase según grados de motor."""</span>
+    <span class="kw">await</span> motor_pair.move_for_degrees(motor_pair.PAIR_1, -grados, direccion, velocity=velocidad)
+
+<span class="com"># --- 5. FUNCIONES DE AVANCE (usan la conversión a float) ---</span>
+<span class="kw">async def</span> <span class="func">avanzar_cm</span>(cm: <span class="type">float</span>, velocidad: <span class="type">int</span> = <span class="num">500</span>) -> <span class="kw">None</span>:
+    <span class="str">"""Avanza recto la cantidad de cm especificada, usando la fórmula de conversión."""</span>
+    grados = cm_a_grados(cm)
+    <span class="kw">await</span> motor_pair.move_for_degrees(motor_pair.PAIR_1, grados, <span class="num">0</span>, velocity=velocidad)
+
+<span class="com"># --- 6. FUNCIÓN PAUSA ---</span>
+<span class="kw">async def</span> <span class="func">pausa</span>(segundos: <span class="type">float</span> = <span class="num">2</span>) -> <span class="kw">None</span>:
+    <span class="str">"""Pausa asíncrona no bloqueante. Por defecto, 2 segundos."""</span>
+    <span class="kw">await</span> runloop.sleep_ms(<span class="type">int</span>(segundos * <span class="num">1000</span>))
+
+<span class="com"># --- FUNCIÓN PRINCIPAL Y EJECUCIÓN ---</span>
+<span class="kw">async def</span> <span class="func">main</span>():
+    <span class="com"># Inicialización del par de motores</span>
+    motor_pair.pair(motor_pair.PAIR_1, motor_izquierda, motor_derecha)
+
+    <span class="kw">await</span> avanzar_cm(<span class="num">130</span>)
+    <span class="kw">await</span> pausa()
+
+    <span class="kw">await</span> girar_derecha_fase(grados=<span class="num">500</span>)
+    <span class="kw">await</span> pausa()
+
+    <span class="kw">await</span> avanzar_cm(<span class="num">40</span>)
+    <span class="kw">await</span> pausa()
+
+    contador_ms = <span class="num">0</span>
+    <span class="kw">while True</span>:
+        <span class="kw">if</span>(color_sensor.color(puerto_sensor_color) == color.BLACK):
+            motor.run(motor_izquierda, -<span class="num">100</span>)
+            motor.run(motor_derecha, <span class="num">300</span>)
+        <span class="kw">if</span>(color_sensor.color(puerto_sensor_color) == color.WHITE):
+            motor.run(motor_izquierda, -<span class="num">300</span>)
+            motor.run(motor_derecha, <span class="num">100</span>)
+        <span class="kw">if</span>(contador_ms >= <span class="num">6000</span>):
+            <span class="kw">break</span>
+        <span class="kw">await</span> runloop.sleep_ms(<span class="num">1</span>)
+        contador_ms += <span class="num">1</span>
+    motor.stop(motor_derecha)
+    motor.stop(motor_izquierda)
+
+    <span class="kw">await</span> girar_izquierda_fase(<span class="num">500</span>)
+    <span class="kw">await</span> pausa()
+
+    contador_ms = <span class="num">0</span>
+    <span class="kw">while True</span>:
+        <span class="kw">if</span>(color_sensor.color(puerto_sensor_color) == color.BLACK):
+            motor.run(motor_izquierda, -<span class="num">100</span>)
+            motor.run(motor_derecha, <span class="num">300</span>)
+        <span class="kw">if</span>(color_sensor.color(puerto_sensor_color) == color.WHITE):
+            motor.run(motor_izquierda, -<span class="num">300</span>)
+            motor.run(motor_derecha, <span class="num">100</span>)
+        <span class="kw">if</span>(contador_ms >= <span class="num">7000</span>):
+            <span class="kw">break</span>
+        <span class="kw">await</span> runloop.sleep_ms(<span class="num">1</span>)
+        contador_ms += <span class="num">1</span>
+    motor.stop(motor_derecha)
+    motor.stop(motor_izquierda)
+
+    <span class="kw">await</span> bajar_garra(grados=<span class="num">900</span>)
+    <span class="kw">await</span> pausa()
+
+    <span class="kw">await</span> girar_izquierda_fase(<span class="num">500</span>)
+    <span class="kw">await</span> pausa()
+
+    <span class="kw">await</span> avanzar_cm(<span class="num">20</span>)
+    <span class="kw">await</span> pausa()
+
+    contador_ms = <span class="num">0</span>
+    <span class="kw">while True</span>:
+        <span class="kw">if</span>(color_sensor.color(puerto_sensor_color) == color.BLACK):
+            motor.run(motor_izquierda, -<span class="num">100</span>)
+            motor.run(motor_derecha, <span class="num">300</span>)
+        <span class="kw">if</span>(color_sensor.color(puerto_sensor_color) == color.WHITE):
+            motor.run(motor_izquierda, -<span class="num">300</span>)
+            motor.run(motor_derecha, <span class="num">100</span>)
+        <span class="kw">if</span>(contador_ms >= <span class="num">6000</span>):
+            <span class="kw">break</span>
+        <span class="kw">await</span> runloop.sleep_ms(<span class="num">1</span>)
+        contador_ms += <span class="num">1</span>
+    motor.stop(motor_derecha)
+    motor.stop(motor_izquierda)
+
+    <span class="kw">await</span> avanzar_cm(<span class="num">36</span>)
+    <span class="kw">await</span> pausa()
+
+    <span class="kw">await</span> girar_izquierda_fase(grados=<span class="num">500</span>)
+    <span class="kw">await</span> pausa()
+
+    <span class="kw">await</span> avanzar_cm(<span class="num">17</span>)
+    <span class="kw">await</span> pausa()
+
+<span class="com"># Acá se llama a la función main definida.</span>
+runloop.run(main())</code></pre>
+        </div>
+    </section>
+
+    <footer>
+        <p>Generado para la clase de Fundamentos de Robótica - UAM 2025</p>
+    </footer>
+</div>
+
+</body>
+</html>
